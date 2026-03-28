@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para mi Rebelde favorita ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-amor: #d63384;
+            --color-rebelde: #e63946;
+            --color-suave: #fffafa;
+            --color-borde: #ffb6c1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(-45deg, #ffdde1, #ee9ca7, #fad0c4, #ffd1ff, #a1c4fd);
+            background-size: 400% 400%;
+            animation: gradientBg 18s ease infinite;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            color: #444;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @keyframes gradientBg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #encabezado { text-align: center; margin-top: 40px; padding: 0 20px; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--color-amor); margin: 0; text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.7); }
+        
+        .contador-container {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            border: 1px solid white;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        /* --- SECCIÓN REBELDE WAY --- */
+        .rebelde-box {
+            background: rgba(230, 57, 70, 0.1);
+            border-left: 5px solid var(--color-rebelde);
+            padding: 15px;
+            margin: 20px;
+            width: 85%;
+            max-width: 400px;
+            border-radius: 0 15px 15px 0;
+        }
+        .frase-rebelde {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #b91c1c;
+            margin: 5px 0;
+        }
+
+        /* --- FOTOS INTERACTIVAS --- */
+        .galeria {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 10px;
+            perspective: 1200px;
+        }
+        .polaroid-wrapper {
+            width: 160px;
+            height: 230px;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .polaroid-wrapper.volteada { transform: rotateY(180deg); }
+
+        .frente, .atras {
+            width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0;
+            backface-visibility: hidden;
+            background: white;
+            border-radius: 3px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .frente { padding: 8px 8px 30px 8px; z-index: 2; }
+        .frente img { width: 100%; height: 180px; object-fit: cover; }
+        .atras {
+            transform: rotateY(180deg);
+            background: var(--color-suave);
+            justify-content: center;
+            padding: 15px;
+            text-align: center;
+            border: 2px dashed var(--color-borde);
+        }
+        .mensaje-atras { font-family: 'Dancing Script', cursive; font-size: 1.1rem; color: var(--color-amor); margin: 0; }
+
+        /* --- JUEGO PANEL ESTELAR --- */
+        .game-section {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .grid-recuerdos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .panel-recuerdo {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .panel-recuerdo.revelado { transform: rotateY(180deg); }
+        .back-game { transform: rotateY(180deg); background: white; width: 100%; height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 2rem; position: absolute; backface-visibility: hidden; }
+        .front-game { position: absolute; backface-visibility: hidden; color: white; font-size: 0.7rem; }
+
+        /* --- MENSAJE FINAL --- */
+        #final-game-box {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 200;
+            justify-content: center; align-items: center;
+            padding: 20px;
+        }
+        .mensaje-final-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            border: 4px solid var(--color-rebelde);
+        }
+
+        .reproductor-box {
+            text-align: center; margin: 30px 0;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 15px; border-radius: 30px;
+            width: 85%; max-width: 350px;
+        }
+        audio { width: 100%; height: 35px; }
+
+        .corazon { position: fixed; top: -10%; font-size: 20px; user-select: none; pointer-events: none; z-index: 100; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        footer { font-style: italic; margin-bottom: 40px; color: #777; }
+    </style>
+</head>
+<body>
+
+    <div id="encabezado">
+        <h1>¡Feliz Cumple, Mai! 🌻</h1>
+        <p style="color: var(--color-rebelde); font-weight: 600;">"Porque ser rebelde es querer a alguien a pesar de todo"</p>
+    </div>
+
+    <div class="contador-container">
+        <p style="margin: 0; font-size: 0.8rem;">TIEMPO A TU LADO:</p>
+        <div id="contador">Calculando...</div>
+    </div>
+
+    <div class="rebelde-box">
+        <p class="frase-rebelde">"No importa lo que pase, lo que importa es que estamos juntos en esto."</p>
+        <p class="frase-rebelde">"Perder el miedo a sentir es empezar a vivir." ✨</p>
+    </div>
+
+    <div class="galeria">
+        <div class="polaroid-wrapper" onclick="voltear(this)">
+            <div class="frente"><img src="foto1.jpg"></div>
+            <div class="atras"><p class="mensaje-atras">Te diría que sos brillante como una estrella, pero sos única como la luna 🌙</p></div>
+        </div>
+        <div class="polaroid-wrapper" onclick="voltear(this)">
+            <div class="frente"><img src="foto2.jpg"></div>
+            <div class="atras"><p class="mensaje-atras">Sos el sol que hace sonreír a todos mis días ☀️🌻</p></div>
+        </div>
+        <div class="polaroid-wrapper" onclick="voltear(this)">
+            <div class="frente"><img src="foto3.jpg"></div>
+            <div class="atras"><p class="mensaje-atras">Estar con vos es mi sueño más hermoso hecho realidad ♾️💖</p></div>
+        </div>
+    </div>
+
+    <div class="game-section">
+        <h2 style="color: white; font-family: 'Dancing Script';">Panel Estelar 💫</h2>
+        <div class="grid-recuerdos"></div>
+    </div>
+
+    <div id="final-game-box">
+        <div class="mensaje-final-content">
+            <h2 style="font-family: 'Dancing Script'; color: var(--color-amor); font-size: 2.5rem;">¡Unidos por siempre! ❤️</h2>
+            <p style="font-size: 1rem; color: #444;">
+                Como dicen en <b>Rebelde Way</b>: "Resistiré solo por vos". No importa la distancia entre CABA y Merlo, mi amor por vos cruza cualquier frontera. Sos mi persona favorita y mi mejor historia. ¡Felices 12 años, mi vida!
+            </p>
+            <button onclick="document.getElementById('final-game-box').style.display='none'" style="background: var(--color-rebelde); color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 15px;">Te amo ❤️</button>
+        </div>
+    </div>
+
+    <div class="reproductor-box">
+        <p style="margin-bottom: 5px; font-size: 0.9rem;">Nuestra canción ✨</p>
+        <audio controls><source src="Milo j-M.A.I.mp3" type="audio/mpeg"></audio>
+    </div>
+
+    <footer>Con amor, Eli ❤️</footer>
+
+    <script>
+        function voltear(e) { e.classList.toggle('volteada'); }
+
+        const recuerdos = ['🎸', '🌻', '⭐', '❤️', '🎤', '💖'];
+        let revelados = 0;
+        const grid = document.querySelector('.grid-recuerdos');
+
+        recuerdos.forEach(emoji => {
+            const p = document.createElement('div');
+            p.className = 'panel-recuerdo';
+            p.innerHTML = `<div class="front-game">REBELDE</div><div class="back-game">${emoji}</div>`;
+            p.onclick = () => {
+                if(!p.classList.contains('revelado')){
+                    p.classList.add('revelado');
+                    revelados++;
+                    if(revelados === 6) setTimeout(() => document.getElementById('final-game-box').style.display='flex', 800);
+                }
+            };
+            grid.appendChild(p);
+        });
+
+        function actualizarContador() {
+            const inicio = new Date(2025, 11, 1);
+            const ahora = new Date();
+            const diff = ahora - inicio;
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff / 3600000) % 24);
+            const m = Math.floor((diff / 60000) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+            document.getElementById('contador').innerText = `${d}d, ${h}h, ${m}m, ${s}s`;
+        }
+        setInterval(actualizarContador, 1000);
+
+        function crearCorazon() {
+            const c = document.createElement('div');
+            c.className = 'corazon';
+            c.innerHTML = ['❤️', '💖', '✨', '🌻'][Math.floor(Math.random()*4)];
+            c.style.left = Math.random() * 100 + 'vw';
+            c.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 5000);
+        }
+        setInterval(crearCorazon, 450);
+    </script>
+</body>
+</html>
